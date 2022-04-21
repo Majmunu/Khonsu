@@ -1,5 +1,6 @@
 package com.halo.khonsu.service;
 
+import com.halo.khonsu.controller.dto.UserDTO;
 import com.halo.khonsu.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    UserDTO login(UserDTO userDTO);
+
+    User  register(UserDTO userDTO);
 }
