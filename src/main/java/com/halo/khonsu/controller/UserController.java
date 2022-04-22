@@ -74,10 +74,10 @@ public Result login(@RequestBody UserDTO userDTO){
     }
 
     @GetMapping("/username/{username}")
-    public User findOne(@PathVariable String username) {
+    public Result findOne(@PathVariable String username) {
         QueryWrapper<User> queryWrapper= new QueryWrapper<>();
         queryWrapper.eq("username",username);
-        return userService.getOne(queryWrapper);
+        return Result.success(userService.getOne(queryWrapper));
     }
 
     @PostMapping("/del/batch")
