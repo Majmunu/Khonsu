@@ -10,6 +10,7 @@ import com.halo.khonsu.exception.ServiceException;
 import com.halo.khonsu.mapper.UserMapper;
 import com.halo.khonsu.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.halo.khonsu.utils.TokenUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,6 +29,9 @@ private static final Log LOG= Log.get();
         User one=getUserInfo(userDTO);
         if (one!=null) {
             BeanUtil.copyProperties(one,userDTO,true);
+            //设置Token
+            String token=TokenUtils.genToken(one.getId().toString(),one.getPassword());
+            userDTO.setToken(token);
             return userDTO;
         } else  {
             throw new ServiceException(Constants.CODE_600,"用户名或密码错误");

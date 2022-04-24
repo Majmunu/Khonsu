@@ -13,6 +13,7 @@ import com.halo.khonsu.common.Result;
 import com.halo.khonsu.controller.dto.UserDTO;
 import com.halo.khonsu.entity.User;
 import com.halo.khonsu.service.IUserService;
+import com.halo.khonsu.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +48,7 @@ public Result login(@RequestBody UserDTO userDTO){
     }
 
     UserDTO dto = userService.login(userDTO);
+
     return Result.success(dto);
 }
 
@@ -103,6 +105,7 @@ public Result login(@RequestBody UserDTO userDTO){
                                @RequestParam(defaultValue = "") String email,
                                @RequestParam(defaultValue = "") String address) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
         if (!"".equals(username)) {
             queryWrapper.like("username", username);
         }
@@ -112,7 +115,10 @@ public Result login(@RequestBody UserDTO userDTO){
         if (!"".equals(address)) {
             queryWrapper.like("address", address);
         }
-        queryWrapper.orderByDesc("id");
+
+        //获取当前用户信息
+        User currentUser = TokenUtils.getCurrentUser();
+        System.out.println("获取当前用户信息========"+currentUser.getNickname());
         return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
