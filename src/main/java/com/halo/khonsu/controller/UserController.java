@@ -13,7 +13,6 @@ import com.halo.khonsu.common.Result;
 import com.halo.khonsu.controller.dto.UserDTO;
 import com.halo.khonsu.entity.User;
 import com.halo.khonsu.service.IUserService;
-import com.halo.khonsu.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,8 +116,6 @@ public Result login(@RequestBody UserDTO userDTO){
         }
 
         //获取当前用户信息
-        User currentUser = TokenUtils.getCurrentUser();
-        System.out.println("获取当前用户信息========"+currentUser.getNickname());
         return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 

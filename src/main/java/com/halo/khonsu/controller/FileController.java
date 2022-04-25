@@ -5,6 +5,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.halo.khonsu.common.Result;
 import com.halo.khonsu.entity.Files;
 import com.halo.khonsu.mapper.FileMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,7 +68,6 @@ public class FileController {
 
             }else {
                 //把获取到的文件存储到磁盘目录去
-
                 url="http://localhost:9090/file/"+fileUUID;
             }
 
@@ -109,5 +110,52 @@ public class FileController {
         List<Files> filesList=fileMapper.selectList(queryWrapper);
         return filesList.size() == 0 ? null : filesList.get(0);
 
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Files files) {
+        //新增或者更新
+        return Result.success(fileMapper.updateById(files));
+    }
+    /**
+     * 分页查询接口
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @GetMapping("/page")
+    public Result findPage(@RequestParam Integer pageNum,
+                           @RequestParam Integer pageSize,
+                           @RequestParam(defaultValue = "") String name) {
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_delete", false);
+        queryWrapper.orderByDesc("id");
+        if (!"".equals(name)) {
+            queryWrapper.like("name", name);
+        }
+
+        //获取当前用户信息
+        return Result.success(fileMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
+    }
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        Files files=fileMapper.selectById(id);
+        files.setIsDelete(true);
+        fileMapper.updateById(files);
+        return Result.success();
+    }
+    @PostMapping("/del/batch")
+    public Result deletebatch(@RequestBody List<Integer> ids) {
+
+        QueryWrapper<Files> queryWrapper=new QueryWrapper<>();
+        queryWrapper.in("id",ids);
+        List<Files> files=fileMapper.selectList(queryWrapper);
+        for (Files file:files){
+            file.setIsDelete(true);
+            fileMapper.updateById(file);
+        }
+
+        return Result.success();
     }
 }
