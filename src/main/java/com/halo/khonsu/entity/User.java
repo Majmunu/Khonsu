@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -52,7 +52,7 @@ public class User implements Serializable {
       private String address;
 
       @ApiModelProperty("创建时间")
-      private LocalDateTime createTime;
+      private Date createTime;
 
       @ApiModelProperty("头像")
       private String avatarUrl;
