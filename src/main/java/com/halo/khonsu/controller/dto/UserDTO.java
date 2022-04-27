@@ -1,7 +1,9 @@
 package com.halo.khonsu.controller.dto;
 
+import com.halo.khonsu.entity.Menu;
 import lombok.Data;
 
+import java.util.List;
 
 
 /**
@@ -15,5 +17,8 @@ public class UserDTO {
     private String nickname;
     private String avatarUrl;
     private String token;
+    private String role;
+
+    private List<Menu> menus;
 
 }

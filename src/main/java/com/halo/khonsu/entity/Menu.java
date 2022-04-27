@@ -1,13 +1,16 @@
 package com.halo.khonsu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -40,6 +43,11 @@ public class Menu implements Serializable {
 
       @ApiModelProperty("描述")
       private String description;
+
+      @TableField(exist = false)
+      private List<Menu> children;
+
+      private Integer pid;
 
 
 }

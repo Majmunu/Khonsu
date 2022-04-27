@@ -3,8 +3,11 @@ package com.halo.khonsu.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.halo.khonsu.common.Constants;
 import com.halo.khonsu.common.Result;
+import com.halo.khonsu.entity.Dict;
 import com.halo.khonsu.entity.Menu;
+import com.halo.khonsu.mapper.DictMapper;
 import com.halo.khonsu.service.IMenuService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,9 @@ public class MenuController {
    @Resource
    private IMenuService menuService;
 
+   @Resource
+   private DictMapper dictMapper;
+
 // 新增或者更新
 @PostMapping
 public Result save(@RequestBody Menu menu) {
@@ -47,8 +53,12 @@ public Result deleteBatch(@RequestBody List<Integer> ids) {
         }
 
 @GetMapping
-public Result findAll() {
-        return Result.success(menuService.list());
+
+public Result findAll(@RequestParam(defaultValue = "") String name) {
+
+
+
+        return Result.success(menuService.findMenus(name));
         }
 
 @GetMapping("/{id}")
@@ -65,6 +75,13 @@ public Result findPage(@RequestParam String name,
     queryWrapper.orderByDesc("id");
     return Result.success(menuService.page(new Page<>(pageNum, pageSize), queryWrapper));
 }
+    @GetMapping("/icons")
+    public Result getIcons() {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type", Constants.DICT_TYPE_ICON);
+        return Result.success(dictMapper.selectList(queryWrapper));
+    }
+
 
 }
 
