@@ -61,7 +61,14 @@ public Result findAll(@RequestParam(defaultValue = "") String name) {
         return Result.success(menuService.findMenus(name));
         }
 
-@GetMapping("/{id}")
+
+    @GetMapping("/ids")
+    public Result findAllIds() {
+        return Result.success(menuService.list().stream().map(Menu::getId));
+    }
+
+
+    @GetMapping("/{id}")
 public Result findOne(@PathVariable Integer id) {
         return Result.success(menuService.getById(id));
         }

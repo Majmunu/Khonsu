@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.khonsu.common.Constants;
 import com.halo.khonsu.common.Result;
 import com.halo.khonsu.controller.dto.UserDTO;
+import com.halo.khonsu.controller.dto.UserPasswordDTO;
 import com.halo.khonsu.entity.User;
 import com.halo.khonsu.service.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -92,6 +93,16 @@ public Result login(@RequestBody UserDTO userDTO){
         return Result.success(userService.list());
     }
 
+    /**
+     * 修改密码
+     * @param userPasswordDTO
+     * @return
+     */
+    @PostMapping("/password")
+    public Result password(@RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(userPasswordDTO);
+        return Result.success();
+    }
     @GetMapping("/{id}")
     public Result findOne(@PathVariable Integer id) {
         return Result.success(userService.getById(id));

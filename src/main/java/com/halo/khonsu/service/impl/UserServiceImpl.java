@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.halo.khonsu.common.Constants;
 import com.halo.khonsu.controller.dto.UserDTO;
+import com.halo.khonsu.controller.dto.UserPasswordDTO;
 import com.halo.khonsu.entity.Menu;
 import com.halo.khonsu.entity.User;
 import com.halo.khonsu.exception.ServiceException;
@@ -74,6 +75,17 @@ private IMenuService menuService;
         }
         return null;
     }
+
+
+    @Resource
+    private UserMapper userMapper;
+    public void updatePassword(UserPasswordDTO userPasswordDTO) {
+        int update = userMapper.updatePassword(userPasswordDTO);
+        if (update < 1) {
+            throw new ServiceException(Constants.CODE_600, "密码错误");
+        }
+    }
+
     private User getUserInfo(UserDTO userDTO){
         QueryWrapper<User>queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("username", userDTO.getUsername());
