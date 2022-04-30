@@ -1,6 +1,7 @@
 package com.halo.khonsu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -40,12 +42,24 @@ public class Answers implements Serializable {
 
       @ApiModelProperty("父id")
       private Integer pid;
+  @TableField(exist = false)
+  private String pNickname;  // 父节点的用户昵称
+  @TableField(exist = false)
+  private Integer pUserId;  // 父节点的用户id
 
       @ApiModelProperty("最上级评论id")
       private Integer originId;
 
       @ApiModelProperty("关联问答的id")
       private Integer questionId;
+
+  @TableField(exist = false)
+  private String nickname;
+  @TableField(exist = false)
+  private String avatarUrl;
+
+  @TableField(exist = false)
+  private List<Answers> children;
 
 
 }

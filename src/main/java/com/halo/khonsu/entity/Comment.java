@@ -42,6 +42,10 @@ public class Comment implements Serializable {
 
       @ApiModelProperty("父id")
       private Integer pid;
+  @TableField(exist = false)
+  private String pNickname;  // 父节点的用户昵称
+  @TableField(exist = false)
+  private Integer pUserId;  // 父节点的用户id
 
       @ApiModelProperty("最上级评论id")
       private Integer originId;
