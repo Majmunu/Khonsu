@@ -1,5 +1,6 @@
 server:
   port: 9090
+  ip: 101.132.170.160
 spring:
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,4 +17,5 @@ mybatis-plus:
 
 files:
   upload:
-    path: D:/Download/temp/
+     path: D:/Download/temp/
+     #path: /home/files/
