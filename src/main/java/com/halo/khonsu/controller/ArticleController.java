@@ -27,6 +27,9 @@ import java.util.List;
 public class ArticleController {
 
 
+
+
+
     @Resource
     private IArticleService articleService;
 
@@ -75,6 +78,7 @@ public class ArticleController {
         }
         return Result.success(articleService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
+
 
 }
 
