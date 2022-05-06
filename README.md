@@ -1,2 +1,16 @@
 # Khonsu
-后端管理系统
+
+后端技术栈
+Spring Boot
+
+Mysql
+
+Mybatis
+
+MyBatis-Plus
+
+Spring Security
+
+JWT
+
+Lombok
