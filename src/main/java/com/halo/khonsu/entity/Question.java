@@ -37,6 +37,7 @@ public class Question implements Serializable {
 
       @ApiModelProperty("发布时间")
       private String time;
-
+   @ApiModelProperty("头像")
+   private String avatarUrl;
 
 }

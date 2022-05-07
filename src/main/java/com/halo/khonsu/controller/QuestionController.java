@@ -37,6 +37,7 @@ public class QuestionController {
         if(question.getId()==null){//新增
             question.setTime(DateUtil.now());
             question.setUser(TokenUtils.getCurrentUser().getNickname());
+            question.setAvatarUrl(TokenUtils.getCurrentUser().getAvatarUrl());
         }
 
         questionService.saveOrUpdate(question);

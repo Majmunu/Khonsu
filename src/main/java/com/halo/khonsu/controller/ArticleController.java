@@ -27,6 +27,9 @@ import java.util.List;
 public class ArticleController {
 
 
+
+
+
     @Resource
     private IArticleService articleService;
 
@@ -36,8 +39,9 @@ public class ArticleController {
         if(article.getId()==null){//新增
            article.setTime(DateUtil.now());
            article.setUser(TokenUtils.getCurrentUser().getNickname());
-        }
+            article.setAvatarUrl(TokenUtils.getCurrentUser().getAvatarUrl());
 
+        }
         articleService.saveOrUpdate(article);
         return Result.success();
     }
@@ -75,6 +79,7 @@ public class ArticleController {
         }
         return Result.success(articleService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
+
 
 }
 

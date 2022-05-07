@@ -38,5 +38,17 @@ public class Article implements Serializable {
       @ApiModelProperty("发布时间")
       private String time;
 
+   @ApiModelProperty("点赞次数")
+   private String fabulous;
+
+   @ApiModelProperty("观看次数")
+   private String view;
+
+   @ApiModelProperty("收藏次数")
+   private String collection;
+
+   @ApiModelProperty("头像")
+   private String avatarUrl;
+
 
 }
