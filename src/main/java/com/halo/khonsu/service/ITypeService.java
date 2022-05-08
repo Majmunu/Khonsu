@@ -1,6 +1,6 @@
 package com.halo.khonsu.service;
 
-import com.halo.khonsu.entity.Tag;
+import com.halo.khonsu.entity.Type;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,10 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author chen
- * @since 2022-05-07
+ * @since 2022-05-08
  */
-public interface ITagService extends IService<Tag> {
-
-
+public interface ITypeService extends IService<Type> {
 
 }

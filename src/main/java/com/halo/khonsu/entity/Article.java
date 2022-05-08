@@ -1,6 +1,7 @@
 package com.halo.khonsu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,6 +50,12 @@ public class Article implements Serializable {
 
    @ApiModelProperty("头像")
    private String avatarUrl;
+
+   @ApiModelProperty("文章分类")
+   private Integer typeid;
+
+   @TableField(exist = false)
+   private String type;
 
 
 }

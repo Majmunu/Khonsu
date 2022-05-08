@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.khonsu.common.Result;
 import com.halo.khonsu.entity.Article;
+import com.halo.khonsu.entity.Type;
 import com.halo.khonsu.service.IArticleService;
+import com.halo.khonsu.service.ITypeService;
 import com.halo.khonsu.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +34,8 @@ public class ArticleController {
 
     @Resource
     private IArticleService articleService;
+    @Resource
+    private ITypeService typeService;
 
     // 新增或者更新
     @PostMapping
@@ -71,13 +75,30 @@ public class ArticleController {
     @GetMapping("/page")
     public Result findPage(@RequestParam String name,
                            @RequestParam Integer pageNum,
+                           @RequestParam(defaultValue = "") String typeid,
                            @RequestParam Integer pageSize) {
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.orderByDesc("id");
         if(StrUtil.isNotBlank(name)){
             queryWrapper.like("name",name);
         }
-        return Result.success(articleService.page(new Page<>(pageNum, pageSize), queryWrapper));
+        if (!"".equals(typeid)) {
+            queryWrapper.like("typeid", typeid);
+        }
+        Page<Article> page=articleService.page(new Page<>(pageNum,pageSize),queryWrapper);
+        List<Article> records=page.getRecords();
+        for(Article record:records){
+            Type type1=typeService.getById(record.getTypeid());
+            if(type1!=null){
+                record.setType(type1.getName());
+            }
+        }
+
+
+
+        /*Page<Article> page = articleService.page(new Page<>(pageNum, pageSize), queryWrapper);*/
+        return Result.success(page);
     }
 
 
