@@ -1,5 +1,6 @@
 package com.halo.khonsu.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.khonsu.entity.Type;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ITypeService extends IService<Type> {
 
+    Page<Type> findPage(Page<Type> objectPage, String typename);
 }

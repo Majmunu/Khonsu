@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.halo.khonsu.mapper.TypeMapper">
+    <resultMap id="pageType" type="com.halo.khonsu.entity.Type">
+      <result column="id" property="id"/>
+        <result column="typename" property="typename"/>
 
+        <collection property="articles" javaType="java.util.ArrayList" ofType="com.halo.khonsu.entity.Article">
+            <result column="name" property="name"/>
+            <result column="user" property="user"/>
+            <result column="time" property="time"/>
+        </collection>
+
+    </resultMap>
+    <select id="findPage" resultMap="pageType">
+        SELECT t_type.*,article.* FROM article
+                          left join t_type
+                                    on t_type.id=article.typeid
+    <where>
+        <if test="typename!=null and typename!='' ">
+            and t_type.typename like concat('%',#{typename},'%')
+        </if>
+
+    </where>
+    </select>
 </mapper>

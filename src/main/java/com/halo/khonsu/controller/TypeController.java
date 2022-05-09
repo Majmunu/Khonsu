@@ -1,7 +1,6 @@
 package com.halo.khonsu.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.khonsu.common.Result;
 import com.halo.khonsu.entity.Type;
@@ -56,13 +55,14 @@ public Result findOne(@PathVariable Integer id) {
         return Result.success(typeService.getById(id));
         }
 
-@GetMapping("/page")
-public Result findPage(@RequestParam Integer pageNum,
-@RequestParam Integer pageSize) {
-        QueryWrapper<Type> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("id");
-        return Result.success(typeService.page(new Page<>(pageNum, pageSize), queryWrapper));
-        }
+    @GetMapping("/page")
+    public Result findPage(@RequestParam Integer pageNum,
+                           @RequestParam String typename,
+                           @RequestParam Integer pageSize) {
+       /* QueryWrapper<Type> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");*/
+        return Result.success(typeService.findPage(new Page<>(pageNum, pageSize), typename));
+    }
 
-        }
+}
 

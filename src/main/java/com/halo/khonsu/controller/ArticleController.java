@@ -91,7 +91,7 @@ public class ArticleController {
         for(Article record:records){
             Type type1=typeService.getById(record.getTypeid());
             if(type1!=null){
-                record.setType(type1.getName());
+                record.setType(type1.getTypename());
             }
         }
 
