@@ -131,7 +131,8 @@ public class FileController {
      * @return
      */
     @GetMapping("/page")
-    public Result findPage(@RequestParam Integer pageNum,
+
+    public Result findPage (@RequestParam Integer pageNum,
                            @RequestParam Integer pageSize,
                            @RequestParam(defaultValue = "") String name) {
         QueryWrapper<Files> queryWrapper = new QueryWrapper<>();

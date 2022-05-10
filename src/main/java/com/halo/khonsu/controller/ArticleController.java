@@ -32,6 +32,9 @@ public class ArticleController {
 
 
 
+   /* @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    public  static final  String FIRST_KEY="FIRST_ARTICLE_ALL";*/
     @Resource
     private IArticleService articleService;
     @Resource
@@ -73,6 +76,7 @@ public class ArticleController {
     }
 
     @GetMapping("/page")
+
     public Result findPage(@RequestParam String name,
                            @RequestParam Integer pageNum,
                            @RequestParam(defaultValue = "") String typeid,
@@ -86,6 +90,38 @@ public class ArticleController {
         if (!"".equals(typeid)) {
             queryWrapper.like("typeid", typeid);
         }
+
+        /*//1从缓存获取数据
+        String jsonStr = stringRedisTemplate.opsForValue().get(FIRST_KEY);
+        Page<Article> page;
+        if (StrUtil.isNotBlank(jsonStr)){ //取出来的json是空的
+
+            QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+
+            queryWrapper.orderByDesc("id");
+            if(StrUtil.isNotBlank(name)){
+                queryWrapper.like("name",name);
+            }
+            if (!"".equals(typeid)) {
+                queryWrapper.like("typeid", typeid);
+            }
+           page=articleService.page(new Page<>(pageNum,pageSize),queryWrapper);
+           List<Article> records=page.getRecords();
+           for(Article record:records){
+               Type type1=typeService.getById(record.getTypeid());
+               if(type1!=null){
+                   record.setType(type1.getTypename());
+               }
+           }
+           //缓存到redis
+           stringRedisTemplate.opsForValue().set(FIRST_KEY,JSONUtil.toJsonStr(page));
+
+       }else{
+           //从redis缓存获取数据
+           page = JSONUtil.toBean(jsonStr, new TypeReference<Page<Article>>() {
+           }, true);
+       }*/
+
         Page<Article> page=articleService.page(new Page<>(pageNum,pageSize),queryWrapper);
         List<Article> records=page.getRecords();
         for(Article record:records){
@@ -94,9 +130,6 @@ public class ArticleController {
                 record.setType(type1.getTypename());
             }
         }
-
-
-
         /*Page<Article> page = articleService.page(new Page<>(pageNum, pageSize), queryWrapper);*/
         return Result.success(page);
     }

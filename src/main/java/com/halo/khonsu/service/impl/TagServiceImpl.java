@@ -5,6 +5,9 @@ import com.halo.khonsu.mapper.TagMapper;
 import com.halo.khonsu.service.ITagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -17,4 +20,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements ITagService {
 
+    @Resource
+    private TagMapper tagMapper;
+    @Transactional
+    @Override
+    public void setArticleTag(Integer tagId, Integer articleId) {
+        tagMapper.setArticleTag(tagId,articleId);
+        tagMapper.deleteArticleTag(tagId,articleId);
+    }
 }

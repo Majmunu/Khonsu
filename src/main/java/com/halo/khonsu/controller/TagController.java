@@ -34,9 +34,17 @@ public Result save(@RequestBody Tag tag) {
         tagService.saveOrUpdate(tag);
         return Result.success();
 
-
-
         }
+
+    @PostMapping("/articleTag/{tagId}/{articleId}")
+    public Result articleTag(@PathVariable Integer tagId,@PathVariable Integer articleId) {
+
+        tagService.setArticleTag(tagId,articleId);
+        return Result.success();
+
+
+
+    }
 
 @DeleteMapping("/{id}")
 public Result delete(@PathVariable Integer id) {
@@ -62,9 +70,12 @@ public Result findOne(@PathVariable Integer id) {
 
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
+                           @RequestParam String name,
                            @RequestParam Integer pageSize) {
         QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name",name);
         queryWrapper.orderByDesc("id");
+
         return Result.success(tagService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 

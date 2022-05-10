@@ -5,6 +5,8 @@ import com.halo.khonsu.controller.dto.UserDTO;
 import com.halo.khonsu.controller.dto.UserPasswordDTO;
 import com.halo.khonsu.entity.User;
 
+import javax.mail.MessagingException;
+
 /**
  * <p>
  *  服务类
@@ -20,4 +22,10 @@ public interface IUserService extends IService<User> {
     User  register(UserDTO userDTO);
 
     void updatePassword(UserPasswordDTO userPasswordDTO);
+
+    UserDTO loginEmail(UserDTO userDTO);
+
+    void sendEmailCode(String email,Integer type) throws MessagingException;
+
+
 }

@@ -11,7 +11,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/login","/user/register","/**/export","/**/import","/file/**","/article/**","/question/**","/answers/**","/comment/**","/billboard/**");
+                .excludePathPatterns("/user/login","/user/register","/**/export","/**/import","/file/**","/article/**","/question/**","/answers/**","/comment/**","/billboard/**","/user/email/**","/user/loginEmail/**","/user/reset/**");
     }
     @Bean
     public JwtInterceptor jwtInterceptor(){

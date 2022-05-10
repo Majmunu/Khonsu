@@ -1,8 +1,9 @@
 package com.halo.khonsu.mapper;
 
-import com.halo.khonsu.entity.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.halo.khonsu.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TagMapper extends BaseMapper<Tag> {
 
+
+    void setArticleTag(@Param("tagId") Integer tagId, @Param("articleId") Integer articleId);
+    void deleteArticleTag(@Param("tagId") Integer tagId, @Param("articleId") Integer articleId);
 }
