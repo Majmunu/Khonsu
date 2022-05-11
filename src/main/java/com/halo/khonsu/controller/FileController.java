@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.khonsu.common.Result;
@@ -87,6 +88,60 @@ public class FileController {
         saveFile.setMd5(md5);
         fileMapper.insert(saveFile);
         return url;
+
+
+
+    }
+
+    @PostMapping("/uploadImg")
+    public Object uploadImg(@RequestParam MultipartFile file) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+        String type = FileUtil.extName(originalFilename);
+        long size = file.getSize();
+        //存储数据库
+
+
+        // 定义一个文件唯一的标识码
+        String uuid=IdUtil.fastSimpleUUID();
+        String fileUUID=uuid+ StrUtil.DOT+type;
+
+        File uploadFile = new File(fileUploadPath +fileUUID );
+
+        //判断配置的文件目录是否存在，若不存在，则创建
+        File parentFile=uploadFile.getParentFile();
+        if(!parentFile.exists()){
+            parentFile.mkdirs();
+        }
+
+        String url;
+        //上传文件到磁盘
+        file.transferTo(uploadFile);
+        //获取文件的MD5
+        String md5=SecureUtil.md5(uploadFile);
+        //从数据库查询是否存在相同记录
+        Files dbFiles=getFileByMd5(md5);
+        //获取文件的url
+        if(dbFiles!=null){
+            url=dbFiles.getUrl();
+            uploadFile.delete();
+
+        }else {
+            //把获取到的文件存储到磁盘目录去
+            url="http://localhost:9090/file/"+fileUUID;
+            /*url = "http://" + serverIp + ":9090/file/" + fileUUID;*/
+        }
+
+
+
+        //存储数据库
+        Files saveFile=new Files();
+        saveFile.setName(originalFilename);
+        saveFile.setType(type);
+        saveFile.setSize(size/1024);
+        saveFile.setUrl(url);
+        saveFile.setMd5(md5);
+        fileMapper.insert(saveFile);
+        return JSONUtil.parseObj("{ \"errno\":0,\"data\":[{\"url\":\""+url+"\"}]}");
 
     }
     @GetMapping("/{fileUUID}")

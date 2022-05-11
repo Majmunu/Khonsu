@@ -25,6 +25,7 @@ import javax.mail.MessagingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +76,7 @@ public class UserController {
     // 发送邮箱验证码
 
     @GetMapping("/email/{email}/{type}")
-    public Result sendEmailCode(@PathVariable String email,@PathVariable Integer type) throws MessagingException {
+    public Result sendEmailCode(@PathVariable String email,@PathVariable Integer type) throws MessagingException, UnsupportedEncodingException {
 
         if(StrUtil.isBlank(email)){
             throw new ServiceException(Constants.CODE_400,"参数错误");

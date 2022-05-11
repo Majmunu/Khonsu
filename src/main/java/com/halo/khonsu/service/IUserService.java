@@ -6,6 +6,7 @@ import com.halo.khonsu.controller.dto.UserPasswordDTO;
 import com.halo.khonsu.entity.User;
 
 import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>
@@ -25,7 +26,7 @@ public interface IUserService extends IService<User> {
 
     UserDTO loginEmail(UserDTO userDTO);
 
-    void sendEmailCode(String email,Integer type) throws MessagingException;
+    void sendEmailCode(String email,Integer type) throws MessagingException, UnsupportedEncodingException;
 
 
 }

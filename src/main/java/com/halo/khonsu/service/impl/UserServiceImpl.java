@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -146,7 +147,7 @@ private String from;
     }
     // 发送邮箱验证码
     @Override
-    public void sendEmailCode(String email,Integer type) throws MessagingException {
+    public void sendEmailCode(String email,Integer type) throws MessagingException, UnsupportedEncodingException {
         Date now = new Date();
         // 先查询同类型code
         QueryWrapper<Validation> validationQueryWrapper = new QueryWrapper<>();
@@ -166,12 +167,13 @@ private String from;
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper=new MimeMessageHelper(message);
             helper.setFrom(from);  // 发送人
+
             helper.setTo(email);
             helper.setSentDate(now);  // 富文本
             helper.setSubject("【HALO🤪】登录邮箱验证");
             String context="<b>尊敬的用户：</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好，您本次登录的验证码是："+
                     "<a href='"+""+"' >"  + code + "</a><br>"
-                    +"有效期15分钟。请妥善保管，切勿泄露</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该修改邮箱邮件不是由你主动从酷安请求发出，请忽略！";
+                    +"有效期15分钟。请妥善保管，切勿泄露</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该邮件不是由你主动从Halo请求发出，请忽略！";
             helper.setText(context,true);
             javaMailSender.send(message);
         }else if(ValidationEnum.FORGET_PASS.getCode().equals(type)){
