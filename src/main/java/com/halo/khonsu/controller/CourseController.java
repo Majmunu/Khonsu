@@ -35,7 +35,7 @@ public class CourseController {
         if(course.getId()==null){
             course.setTime(DateUtil.now());
             course.setUser(TokenUtils.getCurrentUser().getNickname());
-           course.setAvatarUrl(TokenUtils.getCurrentUser().getAvatarUrl());
+            course.setAvatarUrl(TokenUtils.getCurrentUser().getAvatarUrl());
         }
         courseService.saveOrUpdate(course);
 
@@ -67,14 +67,21 @@ public class CourseController {
 
     @GetMapping("/page")
     public Result findPage(@RequestParam(defaultValue = "") String name,
-                           @RequestParam(required = false) Integer type,
+                           @RequestParam(defaultValue = "") String ctype,
+                           @RequestParam(defaultValue = "") String user,
                            @RequestParam Integer pageNum,
                            @RequestParam Integer pageSize) {
         QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-        queryWrapper.eq("type", type);
+       /* queryWrapper.eq("ctype", ctype);*/
         if (!"".equals(name)) {
             queryWrapper.like("name", name);
+        }
+        if (!"".equals(ctype)) {
+            queryWrapper.like("ctype", ctype);
+        }
+        if (!"".equals(user)) {
+            queryWrapper.like("user", user);
         }
 //        User currentUser = TokenUtils.getCurrentUser();
 //        if (currentUser.getRole().equals("ROLE_USER")) {
@@ -84,4 +91,3 @@ public class CourseController {
     }
 
 }
-

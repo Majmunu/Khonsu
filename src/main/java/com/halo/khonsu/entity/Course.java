@@ -45,6 +45,10 @@ public class Course implements Serializable {
       @ApiModelProperty("1-简单的公告，2富文本")
       private Integer type;
 
+  @ApiModelProperty("教程分类")
+  private String ctype;
+
+
   @ApiModelProperty("头像")
   private String avatarUrl;
 

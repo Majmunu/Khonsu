@@ -78,6 +78,7 @@ public class ArticleController {
     @GetMapping("/page")
 
     public Result findPage(@RequestParam String name,
+                           @RequestParam(defaultValue = "") String user,
                            @RequestParam Integer pageNum,
                            @RequestParam(defaultValue = "") String typeid,
                            @RequestParam Integer pageSize) {
@@ -89,6 +90,9 @@ public class ArticleController {
         }
         if (!"".equals(typeid)) {
             queryWrapper.like("typeid", typeid);
+        }
+        if (!"".equals(user)) {
+            queryWrapper.like("user", user);
         }
 
         /*//1从缓存获取数据
